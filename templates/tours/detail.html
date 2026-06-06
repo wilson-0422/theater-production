@@ -1,0 +1,56 @@
+{{define "tours/detail.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>巡演详情 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/tours/">巡演行程</a> / 巡演详情
+      </div>
+      <a href="/tours/" class="btn btn-secondary">返回列表</a>
+    </div>
+    <div class="detail-card">
+      <div class="detail-header">
+        <h1>{{.Tour.Script.Title}} - {{.Tour.City}}</h1>
+        <span class="badge badge-{{.Tour.Status}}">{{if eq .Tour.Status "planned"}}计划中{{else if eq .Tour.Status "confirmed"}}已确认{{else if eq .Tour.Status "ongoing"}}进行中{{else if eq .Tour.Status "completed"}}已完成{{else if eq .Tour.Status "cancelled"}}已取消{{else}}{{.Tour.Status}}{{end}}</span>
+      </div>
+      <div class="detail-body">
+        <div class="detail-row">
+          <span class="detail-label">剧目</span>
+          <span class="detail-value">{{.Tour.Script.Title}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">城市</span>
+          <span class="detail-value">{{.Tour.City}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">场馆</span>
+          <span class="detail-value">{{.Tour.Venue}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">开始日期</span>
+          <span class="detail-value">{{.Tour.StartDate | formatDate}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">结束日期</span>
+          <span class="detail-value">{{.Tour.EndDate | formatDate}}</span>
+        </div>
+        <div class="detail-row full-width">
+          <span class="detail-label">备注</span>
+          <span class="detail-value">{{.Tour.Notes}}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

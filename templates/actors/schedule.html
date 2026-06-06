@@ -1,0 +1,96 @@
+{{define "actors/schedule.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>排班管理 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/actors/">演员排班</a> / 排班管理
+      </div>
+      <a href="/actors/" class="btn btn-secondary">返回列表</a>
+    </div>
+    <div class="dashboard-grid">
+      <div class="form-card">
+        <h2>新建排班</h2>
+        <form method="POST" action="/actors/schedule">
+          <div class="form-group">
+            <label for="actor_id">演员 <span class="required">*</span></label>
+            <select id="actor_id" name="actor_id" required>
+              <option value="">请选择演员</option>
+              {{range .Actors}}
+              <option value="{{.ID}}">{{.Name}} ({{if eq .RoleType "lead"}}主演{{else if eq .RoleType "supporting"}}配角{{else}}群演{{end}})</option>
+              {{end}}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="script_id">剧目 <span class="required">*</span></label>
+            <select id="script_id" name="script_id" required>
+              <option value="">请选择剧目</option>
+              {{range .Scripts}}
+              <option value="{{.ID}}">{{.Title}}</option>
+              {{end}}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="role_name">角色名</label>
+            <input type="text" id="role_name" name="role_name" placeholder="请输入角色名">
+          </div>
+          <div class="form-group">
+            <label for="schedule_date">排班日期 <span class="required">*</span></label>
+            <input type="date" id="schedule_date" name="schedule_date" required>
+          </div>
+          <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" name="status">
+              <option value="scheduled">已排班</option>
+              <option value="confirmed">已确认</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">创建排班</button>
+          </div>
+        </form>
+      </div>
+      <div class="section-card">
+        <h2>排班列表</h2>
+        {{if .Schedules}}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>演员</th>
+              <th>剧目</th>
+              <th>角色名</th>
+              <th>排班日期</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .Schedules}}
+            <tr>
+              <td>{{.Actor.Name}}</td>
+              <td>{{.Script.Title}}</td>
+              <td>{{.RoleName}}</td>
+              <td>{{.ScheduleDate | formatDate}}</td>
+              <td><span class="badge badge-{{.Status}}">{{if eq .Status "scheduled"}}已排班{{else if eq .Status "confirmed"}}已确认{{else if eq .Status "absent"}}缺席{{else}}{{.Status}}{{end}}</span></td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+        {{else}}
+        <p class="empty-text">暂无排班记录</p>
+        {{end}}
+      </div>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

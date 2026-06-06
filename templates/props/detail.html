@@ -1,0 +1,79 @@
+{{define "props/detail.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{.Prop.Name}} - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/props/">道具服装</a> / {{.Prop.Name}}
+      </div>
+      <a href="/props/" class="btn btn-secondary">返回列表</a>
+    </div>
+    <div class="detail-card">
+      <div class="detail-header">
+        <h1>{{.Prop.Name}}</h1>
+        <span class="badge badge-{{.Prop.Status}}">{{if eq .Prop.Status "available"}}充足{{else if eq .Prop.Status "low"}}不足{{else if eq .Prop.Status "out"}}缺货{{else}}{{.Prop.Status}}{{end}}</span>
+      </div>
+      <div class="detail-body">
+        <div class="detail-row">
+          <span class="detail-label">类别</span>
+          <span class="detail-value">{{if eq .Prop.Category "prop"}}道具{{else}}服装{{end}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">描述</span>
+          <span class="detail-value">{{.Prop.Description}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">总数</span>
+          <span class="detail-value">{{.Prop.Quantity}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">可用数量</span>
+          <span class="detail-value">{{.Prop.Available}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="section-card">
+      <h2>领用记录</h2>
+      {{if .Requisitions}}
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>领用人</th>
+            <th>数量</th>
+            <th>领用日期</th>
+            <th>归还日期</th>
+            <th>状态</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Requisitions}}
+          <tr>
+            <td>{{.Actor.Name}}</td>
+            <td>{{.Quantity}}</td>
+            <td>{{.RequisitionDate | formatDate}}</td>
+            <td>{{if .ReturnDate.IsZero}}未归还{{else}}{{.ReturnDate | formatDate}}{{end}}</td>
+            <td><span class="badge badge-{{.Status}}">{{if eq .Status "pending"}}待审批{{else if eq .Status "approved"}}已批准{{else if eq .Status "returned"}}已归还{{else if eq .Status "rejected"}}已拒绝{{else}}{{.Status}}{{end}}</span></td>
+            <td>{{.Notes}}</td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+      {{else}}
+      <p class="empty-text">暂无领用记录</p>
+      {{end}}
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

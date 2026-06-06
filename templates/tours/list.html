@@ -1,0 +1,59 @@
+{{define "tours/list.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>巡演行程 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>巡演行程</h1>
+      <a href="/tours/create" class="btn btn-primary">新建巡演</a>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>剧目</th>
+          <th>城市</th>
+          <th>场馆</th>
+          <th>开始日期</th>
+          <th>结束日期</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Tours}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td>{{.Script.Title}}</td>
+          <td>{{.City}}</td>
+          <td>{{.Venue}}</td>
+          <td>{{.StartDate | formatDate}}</td>
+          <td>{{.EndDate | formatDate}}</td>
+          <td><span class="badge badge-{{.Status}}">{{if eq .Status "planned"}}计划中{{else if eq .Status "confirmed"}}已确认{{else if eq .Status "ongoing"}}进行中{{else if eq .Status "completed"}}已完成{{else if eq .Status "cancelled"}}已取消{{else}}{{.Status}}{{end}}</span></td>
+          <td class="actions">
+            <a href="/tours/{{.ID}}" class="btn btn-sm btn-info">查看</a>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="8" class="empty-text">暂无巡演数据</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

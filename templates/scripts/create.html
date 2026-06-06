@@ -1,0 +1,72 @@
+{{define "scripts/create.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新建剧本 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/scripts/">剧本存档</a> / 新建剧本
+      </div>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <div class="form-card">
+      <form method="POST" action="/scripts/create">
+        <div class="form-group">
+          <label for="title">剧名 <span class="required">*</span></label>
+          <input type="text" id="title" name="title" required placeholder="请输入剧名">
+        </div>
+        <div class="form-group">
+          <label for="author">作者 <span class="required">*</span></label>
+          <input type="text" id="author" name="author" required placeholder="请输入作者">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="genre">类型</label>
+            <select id="genre" name="genre">
+              <option value="话剧">话剧</option>
+              <option value="昆曲">昆曲</option>
+              <option value="京剧">京剧</option>
+              <option value="音乐剧">音乐剧</option>
+              <option value="舞剧">舞剧</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="duration">时长（分钟）</label>
+            <input type="number" id="duration" name="duration" min="0" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" name="status">
+              <option value="draft">草稿</option>
+              <option value="rehearsing">排练中</option>
+              <option value="performing">演出中</option>
+              <option value="archived">已归档</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="synopsis">剧情简介</label>
+          <textarea id="synopsis" name="synopsis" rows="6" placeholder="请输入剧情简介"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">创建剧本</button>
+          <a href="/scripts/" class="btn btn-secondary">取消</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

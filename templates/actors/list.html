@@ -1,0 +1,59 @@
+{{define "actors/list.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>演员排班 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>演员排班</h1>
+      <a href="/actors/schedule" class="btn btn-primary">排班管理</a>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>电话</th>
+          <th>角色类型</th>
+          <th>特长</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Actors}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td><a href="/actors/{{.ID}}">{{.Name}}</a></td>
+          <td>{{.Gender}}</td>
+          <td>{{.Phone}}</td>
+          <td>{{if eq .RoleType "lead"}}主演{{else if eq .RoleType "supporting"}}配角{{else}}群演{{end}}</td>
+          <td>{{.Skills}}</td>
+          <td><span class="badge badge-{{.Status}}">{{if eq .Status "available"}}空闲{{else if eq .Status "busy"}}忙碌{{else if eq .Status "leave"}}请假{{else}}{{.Status}}{{end}}</span></td>
+          <td class="actions">
+            <a href="/actors/{{.ID}}" class="btn btn-sm btn-info">查看</a>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="8" class="empty-text">暂无演员数据</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

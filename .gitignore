@@ -1,0 +1,11 @@
+*.db
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+.env
+.github.env
+server
+.DS_Store

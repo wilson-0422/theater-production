@@ -1,0 +1,75 @@
+{{define "tours/create.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新建巡演 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/tours/">巡演行程</a> / 新建巡演
+      </div>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <div class="form-card">
+      <form method="POST" action="/tours/create">
+        <div class="form-group">
+          <label for="script_id">剧目 <span class="required">*</span></label>
+          <select id="script_id" name="script_id" required>
+            <option value="">请选择剧目</option>
+            {{range .Scripts}}
+            <option value="{{.ID}}">{{.Title}}</option>
+            {{end}}
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">城市 <span class="required">*</span></label>
+            <input type="text" id="city" name="city" required placeholder="请输入城市">
+          </div>
+          <div class="form-group">
+            <label for="venue">场馆 <span class="required">*</span></label>
+            <input type="text" id="venue" name="venue" required placeholder="请输入场馆">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="start_date">开始日期 <span class="required">*</span></label>
+            <input type="date" id="start_date" name="start_date" required>
+          </div>
+          <div class="form-group">
+            <label for="end_date">结束日期 <span class="required">*</span></label>
+            <input type="date" id="end_date" name="end_date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="status">状态</label>
+          <select id="status" name="status">
+            <option value="planned">计划中</option>
+            <option value="confirmed">已确认</option>
+            <option value="ongoing">进行中</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="notes">备注</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="请输入备注信息"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">创建巡演</button>
+          <a href="/tours/" class="btn btn-secondary">取消</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

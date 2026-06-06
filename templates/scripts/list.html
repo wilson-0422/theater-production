@@ -1,0 +1,63 @@
+{{define "scripts/list.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剧本存档 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>剧本存档</h1>
+      <a href="/scripts/create" class="btn btn-primary">新建剧本</a>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>剧名</th>
+          <th>作者</th>
+          <th>类型</th>
+          <th>时长</th>
+          <th>状态</th>
+          <th>创建时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Scripts}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td><a href="/scripts/{{.ID}}">{{.Title}}</a></td>
+          <td>{{.Author}}</td>
+          <td>{{.Genre}}</td>
+          <td>{{.Duration}}分钟</td>
+          <td><span class="badge badge-{{.Status}}">{{if eq .Status "draft"}}草稿{{else if eq .Status "rehearsing"}}排练中{{else if eq .Status "performing"}}演出中{{else if eq .Status "archived"}}已归档{{else}}{{.Status}}{{end}}</span></td>
+          <td>{{.CreatedAt | formatTime}}</td>
+          <td class="actions">
+            <a href="/scripts/{{.ID}}" class="btn btn-sm btn-info">查看</a>
+            <a href="/scripts/{{.ID}}/edit" class="btn btn-sm btn-warning">编辑</a>
+            <form method="POST" action="/scripts/{{.ID}}/delete" style="display:inline" onsubmit="return confirm('确认删除此剧本？')">
+              <button type="submit" class="btn btn-sm btn-danger">删除</button>
+            </form>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="8" class="empty-text">暂无剧本数据</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

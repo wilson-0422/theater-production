@@ -1,0 +1,59 @@
+{{define "scripts/detail.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{.Script.Title}} - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/scripts/">剧本存档</a> / {{.Script.Title}}
+      </div>
+      <div class="page-actions">
+        <a href="/scripts/{{.Script.ID}}/edit" class="btn btn-warning">编辑</a>
+        <a href="/scripts/" class="btn btn-secondary">返回列表</a>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-header">
+        <h1>{{.Script.Title}}</h1>
+        <span class="badge badge-{{.Script.Status}}">{{if eq .Script.Status "draft"}}草稿{{else if eq .Script.Status "rehearsing"}}排练中{{else if eq .Script.Status "performing"}}演出中{{else if eq .Script.Status "archived"}}已归档{{else}}{{.Script.Status}}{{end}}</span>
+      </div>
+      <div class="detail-body">
+        <div class="detail-row">
+          <span class="detail-label">作者</span>
+          <span class="detail-value">{{.Script.Author}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">类型</span>
+          <span class="detail-value">{{.Script.Genre}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">时长</span>
+          <span class="detail-value">{{.Script.Duration}}分钟</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">创建时间</span>
+          <span class="detail-value">{{.Script.CreatedAt | formatTime}}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">更新时间</span>
+          <span class="detail-value">{{.Script.UpdatedAt | formatTime}}</span>
+        </div>
+        <div class="detail-row full-width">
+          <span class="detail-label">剧情简介</span>
+          <span class="detail-value">{{.Script.Synopsis}}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

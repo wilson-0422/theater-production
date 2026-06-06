@@ -1,0 +1,50 @@
+{{define "index.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="landing-page">
+  <div class="landing-container">
+    <div class="landing-hero">
+      <h1>🎭 剧目排演管理系统</h1>
+      <p class="landing-subtitle">专业剧目排演全流程管理平台</p>
+      <div class="landing-features">
+        <div class="feature-item">
+          <span class="feature-icon">📜</span>
+          <h3>剧本存档</h3>
+          <p>剧本信息管理与版本追踪</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">👥</span>
+          <h3>演员排班</h3>
+          <p>演员调度与排班管理</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🎭</span>
+          <h3>道具服装</h3>
+          <p>道具服装领用与归还</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🏛️</span>
+          <h3>剧场档期</h3>
+          <p>剧场排期与场地管理</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🚌</span>
+          <h3>巡演行程</h3>
+          <p>巡演计划与行程台账</p>
+        </div>
+      </div>
+      <div class="landing-actions">
+        <a href="/auth/login" class="btn btn-primary btn-lg">登录系统</a>
+        <a href="/auth/register" class="btn btn-secondary btn-lg">注册账号</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{{end}}

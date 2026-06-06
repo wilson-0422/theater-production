@@ -1,0 +1,135 @@
+{{define "dashboard/overview.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仪表盘 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>仪表盘</h1>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📜</div>
+        <div class="stat-info">
+          <span class="stat-number">{{.ScriptCount}}</span>
+          <span class="stat-label">剧本总数</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <span class="stat-number">{{.ActorCount}}</span>
+          <span class="stat-label">演员总数</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎭</div>
+        <div class="stat-info">
+          <span class="stat-number">{{.PropCount}}</span>
+          <span class="stat-label">道具服装</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏛️</div>
+        <div class="stat-info">
+          <span class="stat-number">{{.TheaterCount}}</span>
+          <span class="stat-label">剧场数量</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚌</div>
+        <div class="stat-info">
+          <span class="stat-number">{{.TourCount}}</span>
+          <span class="stat-label">巡演行程</span>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="dashboard-section">
+        <h2>最近剧本</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>剧名</th>
+              <th>作者</th>
+              <th>类型</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .RecentScripts}}
+            <tr>
+              <td><a href="/scripts/{{.ID}}">{{.Title}}</a></td>
+              <td>{{.Author}}</td>
+              <td>{{.Genre}}</td>
+              <td><span class="badge badge-{{.Status}}">{{if eq .Status "draft"}}草稿{{else if eq .Status "rehearsing"}}排练中{{else if eq .Status "performing"}}演出中{{else if eq .Status "archived"}}已归档{{else}}{{.Status}}{{end}}</span></td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+      <div class="dashboard-section">
+        <h2>进行中的巡演</h2>
+        {{if .OngoingTours}}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>剧目</th>
+              <th>城市</th>
+              <th>场馆</th>
+              <th>日期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .OngoingTours}}
+            <tr>
+              <td>{{.Script.Title}}</td>
+              <td>{{.City}}</td>
+              <td>{{.Venue}}</td>
+              <td>{{.StartDate | formatDate}} ~ {{.EndDate | formatDate}}</td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+        {{else}}
+        <p class="empty-text">暂无进行中的巡演</p>
+        {{end}}
+        <h2>计划中的巡演</h2>
+        {{if .PlannedTours}}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>剧目</th>
+              <th>城市</th>
+              <th>场馆</th>
+              <th>日期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .PlannedTours}}
+            <tr>
+              <td>{{.Script.Title}}</td>
+              <td>{{.City}}</td>
+              <td>{{.Venue}}</td>
+              <td>{{.StartDate | formatDate}} ~ {{.EndDate | formatDate}}</td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+        {{else}}
+        <p class="empty-text">暂无计划中的巡演</p>
+        {{end}}
+      </div>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

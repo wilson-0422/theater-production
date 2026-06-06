@@ -1,0 +1,24 @@
+{{define "partials/header.html"}}
+<header class="main-header">
+  <div class="header-brand">
+    <a href="/dashboard">🎭 剧目排演管理系统</a>
+  </div>
+  <nav class="header-nav">
+    <a href="/dashboard" class="nav-link">仪表盘</a>
+    <a href="/scripts/" class="nav-link">剧本存档</a>
+    <a href="/actors/" class="nav-link">演员排班</a>
+    <a href="/props/" class="nav-link">道具服装</a>
+    <a href="/theaters/" class="nav-link">剧场档期</a>
+    <a href="/tours/" class="nav-link">巡演行程</a>
+  </nav>
+  <div class="header-user">
+    {{if .User}}
+    <span class="user-name">{{.User.Username}}</span>
+    <span class="user-role">{{if eq .User.Role "admin"}}管理员{{else if eq .User.Role "director"}}导演{{else}}工作人员{{end}}</span>
+    <a href="/auth/logout" class="btn-logout">退出</a>
+    {{else}}
+    <a href="/auth/login" class="btn-login">登录</a>
+    {{end}}
+  </div>
+</header>
+{{end}}

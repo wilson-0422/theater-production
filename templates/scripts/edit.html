@@ -1,0 +1,72 @@
+{{define "scripts/edit.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>编辑剧本 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="/scripts/">剧本存档</a> / <a href="/scripts/{{.Script.ID}}">{{.Script.Title}}</a> / 编辑
+      </div>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <div class="form-card">
+      <form method="POST" action="/scripts/{{.Script.ID}}/edit">
+        <div class="form-group">
+          <label for="title">剧名 <span class="required">*</span></label>
+          <input type="text" id="title" name="title" required value="{{.Script.Title}}">
+        </div>
+        <div class="form-group">
+          <label for="author">作者 <span class="required">*</span></label>
+          <input type="text" id="author" name="author" required value="{{.Script.Author}}">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="genre">类型</label>
+            <select id="genre" name="genre">
+              <option value="话剧" {{if eq .Script.Genre "话剧"}}selected{{end}}>话剧</option>
+              <option value="昆曲" {{if eq .Script.Genre "昆曲"}}selected{{end}}>昆曲</option>
+              <option value="京剧" {{if eq .Script.Genre "京剧"}}selected{{end}}>京剧</option>
+              <option value="音乐剧" {{if eq .Script.Genre "音乐剧"}}selected{{end}}>音乐剧</option>
+              <option value="舞剧" {{if eq .Script.Genre "舞剧"}}selected{{end}}>舞剧</option>
+              <option value="其他" {{if eq .Script.Genre "其他"}}selected{{end}}>其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="duration">时长（分钟）</label>
+            <input type="number" id="duration" name="duration" min="0" value="{{.Script.Duration}}">
+          </div>
+          <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" name="status">
+              <option value="draft" {{if eq .Script.Status "draft"}}selected{{end}}>草稿</option>
+              <option value="rehearsing" {{if eq .Script.Status "rehearsing"}}selected{{end}}>排练中</option>
+              <option value="performing" {{if eq .Script.Status "performing"}}selected{{end}}>演出中</option>
+              <option value="archived" {{if eq .Script.Status "archived"}}selected{{end}}>已归档</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="synopsis">剧情简介</label>
+          <textarea id="synopsis" name="synopsis" rows="6">{{.Script.Synopsis}}</textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">保存修改</button>
+          <a href="/scripts/{{.Script.ID}}" class="btn btn-secondary">取消</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

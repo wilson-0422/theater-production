@@ -1,0 +1,59 @@
+{{define "props/list.html"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>道具服装 - 剧目排演管理系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  {{template "partials/header.html" .}}
+  <main class="main-content">
+    <div class="page-header">
+      <h1>道具服装</h1>
+      <a href="/props/requisition" class="btn btn-primary">领用管理</a>
+    </div>
+    {{if .Error}}
+    <div class="alert alert-error">{{.Error}}</div>
+    {{end}}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>名称</th>
+          <th>类别</th>
+          <th>描述</th>
+          <th>总数</th>
+          <th>可用</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Props}}
+        <tr>
+          <td>{{.ID}}</td>
+          <td><a href="/props/{{.ID}}">{{.Name}}</a></td>
+          <td>{{if eq .Category "prop"}}道具{{else}}服装{{end}}</td>
+          <td>{{.Description}}</td>
+          <td>{{.Quantity}}</td>
+          <td>{{.Available}}</td>
+          <td><span class="badge badge-{{.Status}}">{{if eq .Status "available"}}充足{{else if eq .Status "low"}}不足{{else if eq .Status "out"}}缺货{{else}}{{.Status}}{{end}}</span></td>
+          <td class="actions">
+            <a href="/props/{{.ID}}" class="btn btn-sm btn-info">查看</a>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="8" class="empty-text">暂无道具服装数据</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </main>
+  {{template "partials/footer.html" .}}
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}
